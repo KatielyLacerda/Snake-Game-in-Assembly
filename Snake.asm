@@ -35,23 +35,12 @@ MacasPos: var #1                ; Posição atual da comida
 LastKey: var #1                ; Última tecla AWSD pressionada, usada para manter o movimento
 Length: var #1                 ; Comprimento da cobra
 Corpo: var #300            ; Armazena as posições do corpo da cobra
-Time: var #1
-
-alreadyHavePowerUp: var #1
-PowerUpPos: var #1                ; Posição atual do Power Up
-PowerUpIndex: var #1              ; Índice para o array de posição do Power Up
-PowerUp: var #4
-
-; placar
 
 
 Unidade: var #1
 TenScore: var #1
 Centena: var #1
 
-
-FakeIndex: var #1              
-FakePos: var #1
 
 
 static Unidade, #'0'
@@ -60,7 +49,7 @@ static Centena, #'0'
 
 
 Macas: var #1200
-Fake: var #1500
+
 
 
 Comecar:
@@ -86,26 +75,23 @@ Inicio:
     loadn r2, #3328            ; Cor rosa
     call PrintScreen           ; Imprime a cena do jogo 
     loadn r5, #0               
-    store Length, r5
-    loadn r5, #0               
-    store alreadyHavePowerUp, r5
+    store Length, r5    
     loadn r0, #700            
     store PosicaoCobra, r0         ; Armazena a posição na variável
     dec r0
     store Corpo, r0        ; Posição inicial do corpo da cobra
     loadn r0, #'d'             
     store LastKey, r0          ; Armazena em LastKey para manter o movimento a cada ciclo
-    loadn r6,#4000
-    store Time, r6
     call PrintMacas             
     call ResetScore            
 
 
 GameLoop: ; loop principal do jogo
+
     call Andar             
     call DrawSnake          
     call Delay
-    call triggerPowerUp               
+                  
     jmp GameLoop           
 
 
@@ -204,7 +190,7 @@ CheckCollision:
     loadn r2, #0                  ; Inicializa o índice para o loop
     load r4, Length               ; Carrega o comprimento da cobra
     loadn r5, #'I'                ; Carrega 'I' (paredes)
-    load r6, FakePos              ; Carrega a posição fake
+   
 
 
     CollisionLoop:
@@ -217,10 +203,7 @@ CheckCollision:
         jeq TelaMorte             ; Morre se a cobra tocar em si mesma
 
 
-        cmp r0, r6               
-        jeq TelaMorte             ; Morre se tocar na fake
-
-
+      
         inc r2                   
         inc r1                   
         jmp CollisionLoop
@@ -232,164 +215,163 @@ CheckCollision:
         ;Bloco superior esquerdo|||||||||||||||||||||||||||||
         loadn r7, #208
         cmp r0, r7
-        jeq TelaMorte             ; Morre se tocar na posição #256
+        jeq TelaMorte             ; Morre se tocar na posição #Numero
 
 
         loadn r7, #209
         cmp r0, r7
-        jeq TelaMorte             ; Morre se tocar na posição #580
+        jeq TelaMorte             
 
         loadn r7, #210
         cmp r0, r7
-        jeq TelaMorte             ; Morre se tocar na posição #580
+        jeq TelaMorte             
 
         loadn r7, #211
         cmp r0, r7
-        jeq TelaMorte             ; Morre se tocar na posição #580
+        jeq TelaMorte           
 
         loadn r7, #248
         cmp r0, r7
-        jeq TelaMorte             ; Morre se tocar na posição #256
+        jeq TelaMorte             
 
         loadn r7, #249
         cmp r0, r7
-        jeq TelaMorte             ; Morre se tocar na posição #580
+        jeq TelaMorte         
 
         loadn r7, #250
         cmp r0, r7
-        jeq TelaMorte             ; Morre se tocar na posição #580
+        jeq TelaMorte             
 
         loadn r7, #251
         cmp r0, r7
-        jeq TelaMorte             ; Morre se tocar na posição #580
+        jeq TelaMorte            
 
         loadn r7, #288
         cmp r0, r7
-        jeq TelaMorte             ; Morre se tocar na posição #256
+        jeq TelaMorte            
 
         loadn r7, #289
         cmp r0, r7
-        jeq TelaMorte             ; Morre se tocar na posição #580
-
+        jeq TelaMorte             
         loadn r7, #290
         cmp r0, r7
-        jeq TelaMorte             ; Morre se tocar na posição #580
+        jeq TelaMorte            
 
         loadn r7, #291
         cmp r0, r7
-        jeq TelaMorte             ; Morre se tocar na posição #580
+        jeq TelaMorte             
 
         
         ; Bloco superior direito||||||||||||||||||||||||||||||||||||||
         loadn r7, #225
         cmp r0, r7
-        jeq TelaMorte             ; Morre se tocar na posição #256
+        jeq TelaMorte             
 
         loadn r7, #226
         cmp r0, r7
-        jeq TelaMorte             ; Morre se tocar na posição #580
+        jeq TelaMorte             
 
         loadn r7, #227
         cmp r0, r7
-        jeq TelaMorte             ; Morre se tocar na posição #580
+        jeq TelaMorte             
 
         loadn r7, #228
         cmp r0, r7
-        jeq TelaMorte             ; Morre se tocar na posição #580
+        jeq TelaMorte             
 
         loadn r7, #265
         cmp r0, r7
-        jeq TelaMorte             ; Morre se tocar na posição #256
+        jeq TelaMorte  
 
         loadn r7, #266
         cmp r0, r7
-        jeq TelaMorte             ; Morre se tocar na posição #580
+        jeq TelaMorte             
 
         loadn r7, #267
         cmp r0, r7
-        jeq TelaMorte             ; Morre se tocar na posição #580
+        jeq TelaMorte           
 
         loadn r7, #268
         cmp r0, r7
-        jeq TelaMorte             ; Morre se tocar na posição #580
+        jeq TelaMorte            
 
         loadn r7, #305
         cmp r0, r7
-        jeq TelaMorte             ; Morre se tocar na posição #256
+        jeq TelaMorte            
 
         loadn r7, #306
         cmp r0, r7
-        jeq TelaMorte             ; Morre se tocar na posição #580
+        jeq TelaMorte            
 
         loadn r7, #307
         cmp r0, r7
-        jeq TelaMorte             ; Morre se tocar na posição #580
+        jeq TelaMorte          
 
         loadn r7, #308
         cmp r0, r7
-        jeq TelaMorte             ; Morre se tocar na posição #580
+        jeq TelaMorte          
 
         ;Bloco do centralll |||||||||||||||||||||||||||||||||||
 
         loadn r7, #536
         cmp r0, r7
-        jeq TelaMorte             ; Morre se tocar na posição #580
+        jeq TelaMorte             
 
         loadn r7, #537
         cmp r0, r7
-        jeq TelaMorte             ; Morre se tocar na posição #580
+        jeq TelaMorte            
 
         loadn r7, #538
         cmp r0, r7
-        jeq TelaMorte             ; Morre se tocar na posição #580
+        jeq TelaMorte          
 
         loadn r7, #539
         cmp r0, r7
-        jeq TelaMorte             ; Morre se tocar na posição #580
+        jeq TelaMorte           
 
         loadn r7, #540
         cmp r0, r7
-        jeq TelaMorte             ; Morre se tocar na posição #580
+        jeq TelaMorte            
 
         loadn r7, #576
         cmp r0, r7
-        jeq TelaMorte             ; Morre se tocar na posição #580
+        jeq TelaMorte        
 
         loadn r7, #577
         cmp r0, r7
-        jeq TelaMorte             ; Morre se tocar na posição #580
+        jeq TelaMorte             
 
         loadn r7, #578
         cmp r0, r7
-        jeq TelaMorte             ; Morre se tocar na posição #580
+        jeq TelaMorte            
 
         loadn r7, #579
         cmp r0, r7
-        jeq TelaMorte             ; Morre se tocar na posição #580
+        jeq TelaMorte            
 
         loadn r7, #580
         cmp r0, r7
-        jeq TelaMorte             ; Morre se tocar na posição #580
+        jeq TelaMorte             
 
         loadn r7, #616
         cmp r0, r7
-        jeq TelaMorte             ; Morre se tocar na posição #580
+        jeq TelaMorte             
 
         loadn r7, #617
         cmp r0, r7
-        jeq TelaMorte             ; Morre se tocar na posição #580
+        jeq TelaMorte            
 
         loadn r7, #618
         cmp r0, r7
-        jeq TelaMorte             ; Morre se tocar na posição #580
+        jeq TelaMorte             
 
         loadn r7, #619
         cmp r0, r7
-        jeq TelaMorte             ; Morre se tocar na posição #580
+        jeq TelaMorte          
 
         loadn r7, #620
         cmp r0, r7
-        jeq TelaMorte             ; Morre se tocar na posição #580
+        jeq TelaMorte            
 
 
 
@@ -397,104 +379,102 @@ CheckCollision:
 
         loadn r7, #848
         cmp r0, r7
-        jeq TelaMorte             ; Morre se tocar na posição #580
+        jeq TelaMorte           
 
         loadn r7, #849
         cmp r0, r7
-        jeq TelaMorte             ; Morre se tocar na posição #580
+        jeq TelaMorte           
 
         loadn r7, #850
         cmp r0, r7
-        jeq TelaMorte             ; Morre se tocar na posição #580
+        jeq TelaMorte            
 
         loadn r7, #851
         cmp r0, r7
-        jeq TelaMorte             ; Morre se tocar na posição #580
+        jeq TelaMorte            
 
         loadn r7, #888
         cmp r0, r7
-        jeq TelaMorte             ; Morre se tocar na posição #580
+        jeq TelaMorte             
 
         loadn r7, #889
         cmp r0, r7
-        jeq TelaMorte             ; Morre se tocar na posição #580
+        jeq TelaMorte            
 
         loadn r7, #890
         cmp r0, r7
-        jeq TelaMorte             ; Morre se tocar na posição #580
+        jeq TelaMorte             
 
         loadn r7, #891
         cmp r0, r7
-        jeq TelaMorte             ; Morre se tocar na posição #580
+        jeq TelaMorte            
 
         loadn r7, #928
         cmp r0, r7
-        jeq TelaMorte             ; Morre se tocar na posição #580
+        jeq TelaMorte             
 
         loadn r7, #929
         cmp r0, r7
-        jeq TelaMorte             ; Morre se tocar na posição #580
+        jeq TelaMorte          
 
         loadn r7, #930
         cmp r0, r7
-        jeq TelaMorte             ; Morre se tocar na posição #580
+        jeq TelaMorte             
 
         loadn r7, #931
         cmp r0, r7
-        jeq TelaMorte             ; Morre se tocar na posição #580
+        jeq TelaMorte            
 
 
         ;Bloco Inferior Direito |||||||||||||||||||||||||||||||||||
 
         loadn r7, #865
         cmp r0, r7
-        jeq TelaMorte             ; Morre se tocar na posição #580
+        jeq TelaMorte             
 
         loadn r7, #866
         cmp r0, r7
-        jeq TelaMorte             ; Morre se tocar na posição #580
+        jeq TelaMorte            
 
         loadn r7, #867
         cmp r0, r7
-        jeq TelaMorte             ; Morre se tocar na posição #580
+        jeq TelaMorte            
 
         loadn r7, #868
         cmp r0, r7
-        jeq TelaMorte             ; Morre se tocar na posição #580
+        jeq TelaMorte            
 
         loadn r7, #905
         cmp r0, r7
-        jeq TelaMorte             ; Morre se tocar na posição #580
+        jeq TelaMorte             
 
         loadn r7, #906
         cmp r0, r7
-        jeq TelaMorte             ; Morre se tocar na posição #580
+        jeq TelaMorte           
 
         loadn r7, #907
         cmp r0, r7
-        jeq TelaMorte             ; Morre se tocar na posição #580
+        jeq TelaMorte             
 
         loadn r7, #908
         cmp r0, r7
-        jeq TelaMorte             ; Morre se tocar na posição #580
+        jeq TelaMorte            
 
         loadn r7, #945
         cmp r0, r7
-        jeq TelaMorte             ; Morre se tocar na posição #580
+        jeq TelaMorte            
 
         loadn r7, #946
         cmp r0, r7
-        jeq TelaMorte             ; Morre se tocar na posição #580
+        jeq TelaMorte             
 
         loadn r7, #947
         cmp r0, r7
-        jeq TelaMorte             ; Morre se tocar na posição #580
+        jeq TelaMorte            
 
         loadn r7, #948
         cmp r0, r7
-        jeq TelaMorte             ; Morre se tocar na posição #580
-
-        
+        jeq TelaMorte             
 
         
 
@@ -521,15 +501,13 @@ Andar: ; movimentação da cobra
     push r0
     push r1
     push r2
+
     call Delay
     call RecalculatePosicaoCobra  
     load r0, PosicaoCobra         
     load r2, MacasPos         
     cmp r0, r2
-    jeq IncreaseSnake
-    load r2, PowerUpPos         
-    cmp r0, r2
-    jeq decreaseSnake            
+    jeq IncreaseSnake             
     call CheckCollision  
 
 
@@ -552,7 +530,7 @@ RecalculatePosicaoCobra: ; calcula a posição da cobra baseado na tecla pressio
     load r0, PosicaoCobra        
     inchar r1                 
 
-
+    ; Verifica se a tecla pressionada foi 'a'
     loadn r2, #'a'
     cmp r1, r2
     jeq MoveLeft
@@ -669,8 +647,7 @@ IncreaseSnake: ; aumenta o tamanho da cobra
 
 
     call PrintMacas            ; Se a cobra come a comida, imprime outra
-    call UpdateScore
-    call PrintFake         
+    call UpdateScore        
     load r0, PosicaoRabo     
     load r2, Length          
     loadn r1, #Corpo
@@ -792,32 +769,6 @@ PrintMacas: ; imprime maças
     rts
 
 
-PrintFake:
-    push r0
-    push r1
-    push r2
-    push r3
-
-
-    loadn r1, #2603           
-    loadn r2, #Fake         
-    load r3, FakeIndex     
-    add r0, r2, r3            
-    loadi r2, r0              
-    outchar r1, r2          
-
-
-    inc r3                   
-    store FakeIndex, r3
-    store FakePos, r2
-
-
-    pop r3
-    pop r2
-    pop r1
-    pop r0
-    rts
-
 
 Delay:
     push r0
@@ -826,34 +777,12 @@ Delay:
 
     loadn r1, #5            ; Define o valor inicial do contador externo
     DelayLoop2:
-        loadn r0, #4000      ; Define o valor inicial do contador interno
+        loadn r0, #3500      ; Define o valor inicial do contador interno
     DelayLoop:
         dec r0                ; Decrementa o contador interno
         jnz DelayLoop         ; Se não zero, repete o loop interno
         dec r1                ; Decrementa o contador externo
         jnz DelayLoop2        ; Se não zero, repete o loop externo
-
-
-    pop r1
-    pop r0
-    rts
-
-
-
-
-DelayInitScreen:
-    push r0
-    push r1
-
-
-    loadn r1, #1000            ; Define o valor inicial do contador externo
-    DelayInitLoop2:
-        loadn r0, #1200       ; Define o valor inicial do contador interno
-    DelayInitLoop:
-        dec r0                ; Decrementa o contador interno
-        jnz DelayInitLoop         ; Se não zero, repete o loop interno
-        dec r1                ; Decrementa o contador externo
-        jnz DelayInitLoop2        ; Se não zero, repete o loop externo
 
 
     pop r1
@@ -951,108 +880,7 @@ DisplayScoreTelaMorte:
     rts
 
 
-PrintLifeSavier:
-    ; Power up reduz o tamanho da cobra
-    push r0
-    push r1
-    push r2
-    push r3
 
-    loadn r1, #2907            ; Caractere '[' amarelo
-    loadn r2, #PowerUp         
-    load r3, PowerUpIndex     
-    add r0, r2, r3            
-    loadi r2, r0              
-    outchar r1, r2          
-
-    inc r3                   
-    store PowerUpIndex, r3
-    store PowerUpPos, r2
-    loadn r1, #1
-    store alreadyHavePowerUp, r1
-
-    pop r3
-    pop r2
-    pop r1
-    pop r0
-    rts
-
-
-
-decreaseSnake:
-    push r0
-    push r1
-    push r2
-
-    load r0, PosicaoRabo     
-    load r2, Length ; Não execute a diminuição caso o tamanho da cobra seja menor que 2
-
-    call UpdateScore
-    loadn r1, #0
-    store alreadyHavePowerUp, r1          
-    loadn r1, #Corpo
-    dec r2  
-    sub r1, r1, r2           
-    storei r1, r0            
-    store Length, r2      
-
-    pop r2
-    pop r1
-    pop r0
-    jmp Andar_Skip
-
-
-triggerPowerUp:
-    push r0
-    push r1
-    push r2
-    push r3
-
-    load r3, alreadyHavePowerUp
-    loadn r0, #1
-    cmp r0, r3
-    jeq SkipPowerUp        ; Verifica se existe um power up na tela
-
-    ; Carregar os valores das pontuações
-    load r0, Unidade	
-    load r1, TenScore
-    load r2, Centena
-
-    loadn r3, #'0'        ; ASCII de '0'
-
-    ; Converter caracteres para números
-    sub r0, r0, r3        
-    sub r1, r1, r3        
-    sub r2, r2, r3        
-
-    loadn r3, #10
-    mul r1, r1, r3         ; Multiplica as dezenas por 10
-    add r0, r0, r1         ; Soma unidade e dezenas
-
-    loadn r3, #100
-    mul r2, r2, r3         ; Multiplica as centenas por 100
-    add r0, r0, r2         ; Soma centenas ao total
-
-    loadn r3, #0
-    cmp r0, r3
-    jeq SkipPowerUp     ; Verifica se o score é zero
-
-    ; Verificar múltiplo de 5
-    loadn r1, #5
-    mod r0, r0, r1         ; Resto da divisão por 5
-    loadn r3, #0
-    cmp r0, r3
-    jne SkipPowerUp        ; Se não for múltiplo de 5, pula
-
-
-    call PrintLifeSavier   ; Chama o power-up
-
-SkipPowerUp:    
-    pop r3
-    pop r2
-    pop r1
-    pop r0
-    jmp GameLoop
 
 
 ; tela principal do jogo
@@ -1188,62 +1016,7 @@ TelaAgradecimento27: string "                                        "
 TelaAgradecimento28: string "                                        "
 TelaAgradecimento29: string "                                        "
 
-static PowerUp + #0, #1113
-static PowerUp + #1, #317
-static PowerUp + #2, #802
-static PowerUp + #3, #1008
 
-static Fake + #0, #420
-static Fake + #1, #1238
-static Fake + #2, #244
-static Fake + #3, #662
-static Fake + #4, #496
-static Fake + #5, #1128
-static Fake + #6, #817
-static Fake + #7, #1117
-static Fake + #8, #1113
-static Fake + #9, #601
-static Fake + #10, #490
-static Fake + #11, #655
-static Fake + #12, #215
-static Fake + #13, #420
-static Fake + #14, #601
-static Fake + #15, #215
-static Fake + #16, #317
-static Fake + #17, #648
-static Fake + #18, #769
-static Fake + #19, #690
-static Fake + #20, #971
-static Fake + #21, #802
-static Fake + #22, #883
-static Fake + #23, #434
-static Fake + #24, #317
-static Fake + #25, #1036
-static Fake + #26, #427
-static Fake + #27, #498
-static Fake + #28, #379
-static Fake + #29, #571
-static Fake + #30, #1118
-static Fake + #31, #885
-static Fake + #32, #1029
-static Fake + #33, #1008
-static Fake + #34, #257
-static Fake + #35, #233
-static Fake + #36, #602
-static Fake + #37, #521
-static Fake + #38, #951
-static Fake + #39, #791
-static Fake + #40, #241
-static Fake + #41, #667
-static Fake + #42, #447
-static Fake + #43, #1020
-static Fake + #44, #1111
-static Fake + #45, #920
-static Fake + #46, #980
-static Fake + #47, #440
-static Fake + #48, #649
-static Fake + #49, #241
-static Fake + #50, #768
 
 
 static Macas + #0, #772
@@ -2156,5 +1929,3 @@ static Macas + #906, #613
 static Macas + #907, #233
 static Macas + #908, #996
 static Macas + #909, #183
-static Macas + #910, #1115
-static Macas + #911, #684
